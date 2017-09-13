@@ -18,9 +18,10 @@
 	private var initY:Number;
 	
 	//Metodo constructor que recibe como parametros el "Nombre" del demonio y el MovieClip Principal
-	public function Daemon(nombre:String, mainMc:MovieClip){
-		this.nombre = nombre;
+	public function Daemon(mainMc:MovieClip,nombre:String,initX:Number){
 		this.mainMc = mainMc;
+		this.nombre = nombre;
+		this.initX = initX;
 	}
 	
 	public function getLoader(){
@@ -28,9 +29,9 @@
 		return this.loader;
 	}
 	
-	public function iniciar(initX:Number){
+	public function iniciar(){
 	
-		this.initX = initX;
+		
 		
 		//Le pido al MainMc genera un nuevo MovieClip y se lo asigno a mc
 		this.mc = this.mainMc.createEmptyMovieClip(this.nombre, mainMc.getNextHighestDepth()); 
