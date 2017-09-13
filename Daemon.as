@@ -2,41 +2,59 @@
 
 	class Daemon{
 	
-	//Declaro una variable loadListener y le instancio un objeto LoadListener
-	public var loadListener:LoadListener;
+	//Define un nombre unico del Demonio
+	private var nombre:String;
 	
 	//Declaro una variable MovieClipLoader y le instacio un objeto MovieClipLoader
-	public var mcLoader:MovieClipLoader;
+	public var loader:MovieClipLoader;
 	
-	//Declaro una variable que referencia el MovieClip Principal
-	var MainMc:MovieClip;
+	//MovieClip Principal
+	var mainMc:MovieClip;
 	
 	//Declaro una variable que contenga mi MovieClip para Daemon
 	public var mc:MovieClip;
 	
-	public var myPoint:Object;
+	private var initX:Number;
+	private var initY:Number;
 	
-	public function Daemon(pmc:MovieClip){
-		this.MainMc = pmc;
+	//Metodo constructor que recibe como parametros el "Nombre" del demonio y el MovieClip Principal
+	public function Daemon(nombre:String, mainMc:MovieClip){
+		this.nombre = nombre;
+		this.mainMc = mainMc;
 	}
 	
-	function iniciar(name:String,xx:Number,yy:Number){
-	this.myPoint = {x:10, y:10};
+	public function getLoader(){
+		this.loader = new MovieClipLoader();
+		return this.loader;
+	}
 	
-	this.loadListener  = new LoadListener(xx,yy);
-	this.mcLoader = new MovieClipLoader();
+	public function iniciar(initX:Number){
+	
+		this.initX = initX;
 		
-	//Agrego al objeto MovieClipLoader un Listener que envia info a la consola
-	mcLoader.addListener(loadListener);
+		//Le pido al MainMc genera un nuevo MovieClip y se lo asigno a mc
+		this.mc = this.mainMc.createEmptyMovieClip(this.nombre, mainMc.getNextHighestDepth()); 
 	
-	//Le pido al MainMc genera un nuevo MovieClip y se lo asigno a mc
-	this.mc = this.MainMc.createEmptyMovieClip(name, MainMc.getNextHighestDepth()); 
+		this.mc._x = this.initX;
 	
-	this.mc.localToGlobal(this.myPoint);
+		//Utilizo el loader para cargar el movieClip deseado sobre la variable "mc" la cual es un movieClip (vacio)
+		this.getLoader().loadClip("swf/Bicho.swf", mc);
 	
-	//Utilizo mcLoader para cargar el movieClip deseado sobre la variable "mc" la cual es un movieClip (vacio)
-	mcLoader.loadClip("swf/Bicho.swf", mc);
-
+		//Agrego el MovieClip del "Esbirro" al MovieClip "Principal"
+		this.mainMc.addChild(this.mc);
+	
 	}
+	
+	//El metodo "mover" mueve el esbirro hacia el jugador
+	public function mover(){
+		
+		//Verifico si el esbirro esta en el eje Y por debajo de 200 pixeles
+		//En caso positivo, lo muevo 15 pixeles hacia abajo
+		//En caso Negativo, quiere decir que llego al final y deberia invocar al metodo "Pegar al Jugador" 
+		if(this.mc._y < 250){
+			this.mc._y = this.mc._y + 15;
+		}
+	}
+
 	
 }
