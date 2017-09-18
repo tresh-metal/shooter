@@ -55,7 +55,7 @@ class Daemon {
 	//Si hacen HIT sobre el MovieClip lo remuevo
 	public function hit() {
 		var numberRandom:Number = this.randRange(1,100);
-		if(numberRandom>50){
+		if(numberRandom>35){
 			this.live = false;
 			this.mc.removeMovieClip();
 			this.mainMc.removeChild(this.mc);
