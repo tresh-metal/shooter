@@ -39,6 +39,7 @@ class Daemon {
 		this.getLoader().loadClip("swf/Bicho.swf", mc);
 		//Agrego el MovieClip del "Esbirro" al MovieClip "Principal"
 		this.mainMc.addChild(this.mc);
+		
 	}
 	public function startup(target_mc) {
 		//Defino la posicion x Inicial
@@ -47,11 +48,21 @@ class Daemon {
 		//Defino el tamaño inicial
 		this.mc._width = 20;
 		this.mc._height = 20;
+	
+		 this.mc._rotation = 0;
+		 this.mc.swapDepths(100);
 	}
 	//Si hacen HIT sobre el MovieClip lo remuevo
 	public function hit() {
-		this.live = false;
-		this.mc.removeMovieClip();
+		var numberRandom:Number = this.randRange(1,100);
+		if(numberRandom>50){
+			this.live = false;
+			this.mc.removeMovieClip();
+			this.mainMc.removeChild(this.mc);
+		}else{
+			this.mc.gotoAndPlay(16);
+		}
+		
 	}
 	//El metodo "mover" mueve el esbirro hacia el jugador
 	public function mover() {

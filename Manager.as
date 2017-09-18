@@ -21,9 +21,6 @@
 		this.iniciarVida();
 		//Invoco Demonios
 		this.invocarDemonio();
-		this.invocarDemonio();
-		this.invocarDemonio();
-		this.invocarDemonio();
 	}
 	public function iniciarVida() {
 		this.vida = new Vida(this, this.mainMc);
@@ -45,7 +42,7 @@
 		//Genero un numero random entre 1 y 100
 		var numeroRandom = this.randRange(1, 100);
 		//Si el numero que se genero, es mayor a 50, entonces invoco un demonio
-		if (numeroRandom>95 and this.numeroDemonio<10) {
+		if (numeroRandom>95 and this.numeroDemonio<30) {
 			this.invocarDemonio();
 		}
 	}
@@ -56,7 +53,7 @@
 		this.numeroDemonio++;
 		//Genero una posicion inicial random
 		var initX = this.randRange(1, 320);
-		trace(nombre+" "+initX);
+
 		//Instancio un nuevo demonio y lo almaceno en la coleccion "demonios"
 		this.demonios[nombre] = new Daemon(this, this.mainMc, nombre, initX);
 		//Guardo el nombre del demonio en un array para recorrerlo mas adelante
