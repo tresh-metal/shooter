@@ -1,5 +1,8 @@
 ﻿import LoadListener;
 class Daemon {
+	//PORCENTAJE_ESQUIVAR: Define la posiblidad de esquivar los ataques
+	public static var PORCENTAJE_ESQUIVAR:Number = 35;
+	
 	public static var MAXWIDTH:Number = 200;
 	public static var MAXHEIGHT:Number = 150;
 	//Esta propiedad live, define si el demonio esta vivo o muerto
@@ -35,8 +38,23 @@ class Daemon {
 	public function iniciar() {
 		//Le pido al MainMc genera un nuevo MovieClip y se lo asigno a mc
 		this.mc = this.mainMc.createEmptyMovieClip(this.nombre, mainMc.getNextHighestDepth());
+		
+		//Defino de forma random que esbirro invocar
+		var esbirroRandom = this.randRange(1,2);
+		
 		//Utilizo el loader para cargar el movieClip deseado sobre la variable "mc" la cual es un movieClip (vacio)
-		this.getLoader().loadClip("swf/Bicho.swf", mc);
+		switch (esbirroRandom) {
+			case 1:
+			this.getLoader().loadClip("swf/Ghost.swf", mc);
+			break;
+			case 2:
+			this.getLoader().loadClip("swf/Bicho.swf", mc);
+			break;
+			default :
+			this.getLoader().loadClip("swf/Bicho.swf", mc);
+			break;
+		}
+		
 		//Agrego el MovieClip del "Esbirro" al MovieClip "Principal"
 		this.mainMc.addChild(this.mc);
 		
@@ -52,14 +70,32 @@ class Daemon {
 		 this.mc._rotation = 0;
 		 this.mc.swapDepths(100);
 	}
-	//Si hacen HIT sobre el MovieClip lo remuevo
+	
+	public function clean(){
+			//El esbirro se elimina del escenario
+			this.live = false;
+			this.mainMc.removeChild(this.mc);	
+			this.mc.removeMovieClip();
+				
+	}
+	
+	
+	//Si hacen HIT sobre el MovieClip lo remuevo (Muere el esbirro)
 	public function hit() {
-		var numberRandom:Number = this.randRange(1,100);
-		if(numberRandom>35){
+		
+		var posibilidadDeEsquivar:Number = this.randRange(1,100);
+		
+		if(posibilidadDeEsquivar > Daemon.PORCENTAJE_ESQUIVAR){
+			//Sumamos puntos
+			this.manager.sumarPuntos(this.mc._y);
+			
+			//El esbirro Muere
 			this.live = false;
 			this.mc.removeMovieClip();
 			this.mainMc.removeChild(this.mc);
+			
 		}else{
+			//El esbirro esquiva
 			this.mc.gotoAndPlay(16);
 		}
 		

@@ -38,6 +38,11 @@ class Vida {
 		return this.loader;
 	}
 	
+	public function clean(){
+		this.mainMc.removeChild(this.mc);	
+			this.mc.removeMovieClip();
+	}
+	
 	public function iniciar() {
 		//Le pido al MainMc genera un nuevo MovieClip y se lo asigno a mc
 		this.mc = this.mainMc.createEmptyMovieClip("vida", mainMc.getNextHighestDepth());

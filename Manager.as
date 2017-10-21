@@ -10,6 +10,23 @@
 	var vida:Vida;
 	//Define si el juego Termino
 	var gameOver:Boolean = false;
+	
+	var puntaje:Number = 0;
+	
+	var puntuacionPantalla:TextField; 
+	
+	public function setPuntuacionPantalla(param_puntuacion:TextField){
+		this.puntuacionPantalla = param_puntuacion;
+	}
+	
+	public function sumarPuntos(nuevosPuntos:Number){
+		//Calculo el nuevo puntaje
+		this.puntaje = this.puntaje + nuevosPuntos;
+		//Actualizo la caja en pantalla
+		this.puntuacionPantalla.text = this.puntaje.toString();
+		
+	}
+	
 	public function Manager(mainMc:MovieClip) {
 		this.mainMc = mainMc;
 		this.demonios = new Object();
@@ -36,8 +53,23 @@
 	}
 	public function gameOverNow() {
 		this.gameOver = true;
+		this.cleanUp();
 		gotoAndPlay(4);
 	}
+	
+	public function cleanUp(){
+		
+		//Removemos la vida
+		this.vida.clean();
+		
+		//Removemos demonios
+		for (var i:Number = 0; i<this.nombres.length; i++) {
+				var nombre:String = this.nombres[i];
+				this.demonios[nombre].clean();
+			}
+		
+	}
+	
 	public function generarDemoniosRandom() {
 		//Genero un numero random entre 1 y 100
 		var numeroRandom = this.randRange(1, 100);
