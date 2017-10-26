@@ -1,8 +1,6 @@
 ﻿import LoadListener;
 class Daemon {
-	//PORCENTAJE_ESQUIVAR: Define la posiblidad de esquivar los ataques
-	public static var PORCENTAJE_ESQUIVAR:Number = 35;
-	
+
 	public static var MAXWIDTH:Number = 200;
 	public static var MAXHEIGHT:Number = 150;
 	//Esta propiedad live, define si el demonio esta vivo o muerto
@@ -85,7 +83,7 @@ class Daemon {
 		
 		var posibilidadDeEsquivar:Number = this.randRange(1,100);
 		
-		if(posibilidadDeEsquivar > Daemon.PORCENTAJE_ESQUIVAR){
+		if(posibilidadDeEsquivar > this.manager.porcentajeEsquivar){
 			//Sumamos puntos
 			this.manager.sumarPuntos(this.mc._y);
 			
