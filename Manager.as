@@ -1,4 +1,6 @@
-﻿class Manager {
+﻿import Scenery;
+
+class Manager {
 	//MovieClip Principal
 	var mainMc:MovieClip;
 	//Objeto de Demonios
@@ -15,23 +17,59 @@
 	
 	var puntuacionPantalla:TextField; 
 	
-	public function setPuntuacionPantalla(param_puntuacion:TextField){
-		this.puntuacionPantalla = param_puntuacion;
-	}
+	var nivel:Number = 0;
 	
-	public function sumarPuntos(nuevosPuntos:Number){
-		//Calculo el nuevo puntaje
-		this.puntaje = this.puntaje + nuevosPuntos;
-		//Actualizo la caja en pantalla
-		this.puntuacionPantalla.text = this.puntaje.toString();
-		
-	}
+	var scenery:Scenery;
 	
+	var puntajeTextField:TextField
+	
+	/**
+	*Constructor, Metodo que se ejectua al instanciar por primera vez el objeto
+	*/
 	public function Manager(mainMc:MovieClip) {
 		this.mainMc = mainMc;
 		this.demonios = new Object();
 		this.nombres = new Array();
+		
+		//Inicio el escenario
+		this.scenery = new Scenery(mainMc);
+		this.scenery.cargarFondo(this.nivel);
+		
+		//Puntaje
+		this.iniciarPuntaje();
+		
 	}
+	
+	public function iniciarPuntaje(){
+		this.puntajeTextField = this.mainMc.createTextField("puntaje", 500, 450, 5, 100, 32);
+		this.puntajeTextField.textColor = 0xec5c5c;
+		var myformat:TextFormat = new TextFormat(); 
+		myformat.size = 30; 
+		this.puntajeTextField.setNewTextFormat(myformat);
+	}
+	
+	public function cambiarNivel(){
+		this.nivel++;
+		this.scenery.cargarFondo(this.nivel);
+	}
+	
+
+	public function sumarPuntos(nuevosPuntos:Number){
+		//Calculo el nuevo puntaje
+		this.puntaje = this.puntaje + nuevosPuntos;
+		//Actualizo la caja en pantalla
+		this.puntajeTextField.text = this.puntaje.toString();
+		
+		if(this.puntaje > 500 and this.nivel == 0){
+			this.cambiarNivel();
+		}
+		if(this.puntaje > 1500 and this.nivel == 1){
+			this.cambiarNivel();
+		}
+		
+	}
+	
+	
 	//El metodo "iniciar" será el encargado de invocar los esbirros
 	public function iniciar() {
 		//Inicio la Vida
@@ -54,10 +92,13 @@
 	public function gameOverNow() {
 		this.gameOver = true;
 		this.cleanUp();
+		
 		gotoAndPlay(4);
 	}
 	
 	public function cleanUp(){
+		//Removemos Fondo
+		this.scenery.limpiarFondo();
 		
 		//Removemos la vida
 		this.vida.clean();

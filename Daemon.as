@@ -45,13 +45,13 @@ class Daemon {
 		//Utilizo el loader para cargar el movieClip deseado sobre la variable "mc" la cual es un movieClip (vacio)
 		switch (esbirroRandom) {
 			case 1:
-			this.getLoader().loadClip("swf/Ghost.swf", mc);
+			this.getLoader().loadClip("swf/Ghost.swf", this.mc);
 			break;
 			case 2:
-			this.getLoader().loadClip("swf/Bicho.swf", mc);
+			this.getLoader().loadClip("swf/Bicho.swf", this.mc);
 			break;
 			default :
-			this.getLoader().loadClip("swf/Bicho.swf", mc);
+			this.getLoader().loadClip("swf/Bicho.swf", this.mc);
 			break;
 		}
 		
@@ -111,7 +111,7 @@ class Daemon {
 			//Resto Vida
 			if (this.live) {
 				this.manager.solicitarMenosVida();
-				this.hit();
+				this.clean();
 			}
 		}
 		//Codigo para incrementar el tamaño del demonio
